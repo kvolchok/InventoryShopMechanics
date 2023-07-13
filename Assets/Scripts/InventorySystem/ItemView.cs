@@ -2,6 +2,7 @@ using System;
 using InventorySystem.Item;
 using JetBrains.Annotations;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,7 +29,7 @@ namespace InventorySystem
             _background.sprite = background;
             
             _itemModelModel = itemModelModel;
-            _itemIcon.sprite = Resources.Load<Sprite>(_itemModelModel.SpritePath);
+            _itemIcon.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(_itemModelModel.SpritePath);
             
             _onClick = onClick;
             
