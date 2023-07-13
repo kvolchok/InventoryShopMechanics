@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Api;
+using Api.Responses;
 using InventorySystem.Item;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -50,24 +51,24 @@ namespace Views
             base.OnError(message);
         }
 
-        private void OnGetItems(Dictionary<ItemModel, int> itemModels)
+        private void OnGetItems(InventoryResponse response)
         {
             ClearScreen();
             ShowItemNotSelected();
             HideBlackout();
 
-            _itemModels = itemModels;
+            _itemModels = response.UserItems;
             InitializeItems();
         }
         
-        private void OnItemDelete(string message)
+        private void OnItemDelete(InventoryResponse response)
         {
             ClearScreen();
             ShowItemNotSelected();
             HideBlackout();
             
             DeleteItem(_currentItem);
-            OnItemDeletedSuccessful?.Invoke(message);
+            OnItemDeletedSuccessful?.Invoke(response.Content);
             
             InitializeItems();
             _itemDeletedEvent?.Invoke(_itemsGroupSorter.SelectedMenu);

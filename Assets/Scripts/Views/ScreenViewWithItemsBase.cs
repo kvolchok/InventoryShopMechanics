@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using InventorySystem;
 using InventorySystem.Item;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -56,7 +57,7 @@ namespace Views
             
             _itemName.text = _currentItem.Name;
             _itemDescription.text = _currentItem.Description;
-            _itemIcon.sprite = Resources.Load<Sprite>(_currentItem.SpritePath);
+            _itemIcon.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(_currentItem.SpritePath);
             _itemIcon.gameObject.SetActive(true);
             
             _itemStatsManager.ShowStats(_currentItem);
