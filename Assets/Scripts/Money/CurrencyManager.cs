@@ -1,5 +1,6 @@
 using System;
 using Api;
+using Api.Responses;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
@@ -44,9 +45,9 @@ namespace Money
             GemsValueChanged.Invoke(_gems);
         }
 
-        private void OnSuccess(int newMoney)
+        private void OnSuccess(UserMoneyResponse response)
         {
-            var delta = newMoney - _money;
+            var delta = response.Money - _money;
             MoneyChanged?.Invoke(delta);
         }
         

@@ -10,7 +10,7 @@ namespace Api.Services
 {
     public class UserMoneyApi
     {
-        public void SendAddMoneyRequest(int amount, Action<int> onSuccess, Action<string> onError)
+        public void SendAddMoneyRequest(int amount, Action<UserMoneyResponse> onSuccess, Action<string> onError)
         {
             var url = Endpoints.API_URL + Endpoints.ADD_MONEY_URL;
 
@@ -23,7 +23,7 @@ namespace Api.Services
         }
         
         private IEnumerator SendRequest(string url, UserMoneyRequest request,
-            Action<int> onSuccess, Action<string> onError)
+            Action<UserMoneyResponse> onSuccess, Action<string> onError)
         {
             var jsonRequest = JsonConvert.SerializeObject(request);
             
@@ -43,15 +43,14 @@ namespace Api.Services
                 }
 
                 var message = Encoding.ASCII.GetString(webRequest.downloadHandler.data);
-                var errorMessage = $"Request failed. Error: {webRequest.error}. {message}";
-                onError?.Invoke(errorMessage);
+                onError?.Invoke(message);
                 yield break;
             }
 
             var jsonResponse = webRequest.downloadHandler.text;
             var response = JsonConvert.DeserializeObject<UserMoneyResponse>(jsonResponse);
             
-            onSuccess?.Invoke(response.Money);
+            onSuccess?.Invoke(response);
             webRequest.Dispose();
         }
     }
