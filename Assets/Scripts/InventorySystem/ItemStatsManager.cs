@@ -14,7 +14,7 @@ namespace InventorySystem
         [SerializeField]
         private ItemStatsView _itemStatsViewPrefab;
 
-        public void ShowStats(Item.ItemModel itemModelModel)
+        public void ShowStats(ItemModel itemModelModel)
         {
             if (itemModelModel.Attack != 0)
             {

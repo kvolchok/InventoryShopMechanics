@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Api;
+using Api.Responses;
 using InventorySystem.Item;
 using JetBrains.Annotations;
 using TMPro;
@@ -26,14 +27,14 @@ namespace Views
             }
             
             ShowBlackout();
-            WebApi.Instance.ShopApi.SendGetAllGameItemsRequest(OnSuccess, OnError);
+            WebApi.Instance.ShopApi.SendGetAllGameItemsRequest(OnGetItems, OnError);
         }
 
         [UsedImplicitly]
         public void TryBuyItem()
         {
             ShowBlackout();
-            WebApi.Instance.ShopApi.SendTryBuyItemRequest(_currentItem.Id, OnSuccess, OnError);
+            WebApi.Instance.ShopApi.SendTryBuyItemRequest(_currentItem.Id, OnSuccessBoughtItem, OnError);
         }
 
         protected override void InitializeItems()
@@ -56,20 +57,20 @@ namespace Views
             _itemPrice.text = itemModel.Price.ToString();
         }
 
-        private void OnSuccess(List<ItemModel> itemModels)
+        private void OnGetItems(ShopResponse response)
         {
             ShowItemNotSelected();
             HideBlackout();
             
-            _itemModels = itemModels;
+            _itemModels = response.GameItems;
             InitializeItems();
         }
         
-        private void OnSuccess(ItemModel itemModel, string message)
+        private void OnSuccessBoughtItem(ShopResponse response)
         {
             HideBlackout();
-            OnItemBought?.Invoke(-itemModel.Price);
-            ItemBoughtEvent?.Invoke(message);
+            OnItemBought?.Invoke(-response.Item.Price);
+            ItemBoughtEvent?.Invoke(response.Content);
         }
     }
 }
