@@ -72,7 +72,7 @@ namespace Api.Services
                 }
 
                 var message = Encoding.ASCII.GetString(webRequest.downloadHandler.data);
-                var errorMessage = $"Request failed. Error: {webRequest.error}. {message}";
+                var errorMessage = $"Request failed. Error: {message}";
                 onError?.Invoke(errorMessage);
                 yield break;
             }
