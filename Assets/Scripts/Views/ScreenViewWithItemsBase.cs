@@ -64,6 +64,16 @@ namespace Views
             _actionWithItems.interactable = true;
         }
         
+        protected virtual void ShowItemNotSelected()
+        {
+            _itemStatsManager.HideStats();
+            
+            _itemName.text = "Item not selected";
+            _itemDescription.text = "";
+            _itemIcon.gameObject.SetActive(false);
+            _actionWithItems.interactable = false;
+        }
+        
         protected virtual void OnError(string message)
         {
             HideBlackout();
@@ -78,16 +88,6 @@ namespace Views
             }
             
             _itemViews.Clear();
-        }
-        
-        protected void ShowItemNotSelected()
-        {
-            _itemStatsManager.HideStats();
-            
-            _itemName.text = "Item not selected";
-            _itemDescription.text = "";
-            _itemIcon.gameObject.SetActive(false);
-            _actionWithItems.interactable = false;
         }
 
         protected void ShowBlackout()

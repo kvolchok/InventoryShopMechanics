@@ -57,6 +57,13 @@ namespace Views
             _itemPrice.text = itemModel.Price.ToString();
         }
 
+        protected override void ShowItemNotSelected()
+        {
+            base.ShowItemNotSelected();
+            
+            _itemPrice.text = "";
+        }
+
         private void OnGetItems(ShopResponse response)
         {
             ShowItemNotSelected();
