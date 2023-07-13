@@ -14,37 +14,37 @@ namespace InventorySystem
         [SerializeField]
         private ItemStatsView _itemStatsViewPrefab;
 
-        public void ShowStats(ItemModel itemModelModel)
+        public void ShowStats(ItemModel itemModel)
         {
-            if (itemModelModel.Attack != 0)
+            if (itemModel.Attack != 0)
             {
                 var itemStatsView = Instantiate(_itemStatsViewPrefab, transform);
                 var attack = _statsIcons.First(group => group.Type == StatsType.Attack);
-                itemStatsView.Initialize(attack, itemModelModel.Attack);
+                itemStatsView.Initialize(attack, itemModel.Attack);
                 _stats.Add(itemStatsView);
             }
             
-            if (itemModelModel.Defense != 0)
+            if (itemModel.Defense != 0)
             {
                 var itemStatsView = Instantiate(_itemStatsViewPrefab, transform);
                 var defense = _statsIcons.First(group => group.Type == StatsType.Defense);
-                itemStatsView.Initialize(defense, itemModelModel.Defense);
+                itemStatsView.Initialize(defense, itemModel.Defense);
                 _stats.Add(itemStatsView);
             }
             
-            if (itemModelModel.Speed != 0)
+            if (itemModel.Speed != 0)
             {
                 var itemStatsView = Instantiate(_itemStatsViewPrefab, transform);
                 var speed = _statsIcons.First(group => group.Type == StatsType.Speed);
-                itemStatsView.Initialize(speed, itemModelModel.Speed);
+                itemStatsView.Initialize(speed, itemModel.Speed);
                 _stats.Add(itemStatsView);
             }
             
-            if (itemModelModel.Health != 0)
+            if (itemModel.Health != 0)
             {
                 var itemStatsView = Instantiate(_itemStatsViewPrefab, transform);
                 var health = _statsIcons.First(group => group.Type == StatsType.Health);
-                itemStatsView.Initialize(health, itemModelModel.Health);
+                itemStatsView.Initialize(health, itemModel.Health);
                 _stats.Add(itemStatsView);
             }
         }

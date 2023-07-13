@@ -12,7 +12,7 @@ namespace InventorySystem
     {
         private Action<ItemModel> _onClick;
         
-        public ItemType Type => _itemModelModel.ItemType;
+        public ItemType Type => _itemModel.ItemType;
 
         [SerializeField]
         private Image _background;
@@ -21,22 +21,20 @@ namespace InventorySystem
         [SerializeField]
         private TextMeshProUGUI _itemQuantity;
 
-        private ItemModel _itemModelModel;
-        private int _quantity;
+        private ItemModel _itemModel;
 
-        public void Initialize(Sprite background, ItemModel itemModelModel, Action<ItemModel> onClick, int quantity = 0)
+        public void Initialize(Sprite background, ItemModel itemModel, Action<ItemModel> onClick, int quantity = 0)
         {
             _background.sprite = background;
             
-            _itemModelModel = itemModelModel;
-            _itemIcon.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(_itemModelModel.SpritePath);
+            _itemModel = itemModel;
+            _itemIcon.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(_itemModel.SpritePath);
             
             _onClick = onClick;
             
             if (quantity > 1)
             {
-                _quantity = quantity;
-                _itemQuantity.text = _quantity.ToString();
+                _itemQuantity.text = quantity.ToString();
                 _itemQuantity.gameObject.SetActive(true);
             }
         }
@@ -44,7 +42,7 @@ namespace InventorySystem
         [UsedImplicitly]
         public void OnClick()
         {
-            _onClick?.Invoke(_itemModelModel);
+            _onClick?.Invoke(_itemModel);
         }
     }
 }
