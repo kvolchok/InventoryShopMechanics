@@ -37,6 +37,8 @@ namespace Core
         private void Start()
         {
             _startScreenView.Initialize(_authenticationView);
+            _shopView.Initialize();
+            _inventoryView.Initialize();
             _notificationsManager.Initialize(_startScreenView, _shopView, _inventoryView, _currencyManager);
             
             _startButton.onClick.AddListener(ShowStartScreen);
@@ -57,9 +59,7 @@ namespace Core
 
             _heroManager.Initialize(selectedHeroSettings);
             _currencyManager.Initialize(_userProfile.Money, _userProfile.Gems);
-
-            _shopView.Initialize();
-            _inventoryView.Initialize();
+            
             _lobbyView.Initialize(selectedHeroSettings, _shopView, _inventoryView);
         }
 
