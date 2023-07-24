@@ -8,7 +8,7 @@ namespace Views
 {
     public class AuthenticationView : MonoBehaviour
     {
-        public event Action<MonoBehaviour, UserProfile> Authorized;
+        public event Action<UserProfile> Authorized;
         public event Action<string> Unauthorized;
         
         private const string INVALID_INPUT_MESSAGE = "Login or Password is empty.";
@@ -58,7 +58,7 @@ namespace Views
         private void OnSuccess(UserProfile userProfile)
         {
             HidePreloader();
-            Authorized?.Invoke(this, userProfile);
+            Authorized?.Invoke(userProfile);
         }
 
         private void OnError(string errorMessage)
