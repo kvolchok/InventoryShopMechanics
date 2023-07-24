@@ -1,6 +1,7 @@
 using System;
 using Api;
 using Api.Responses;
+using Core;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,7 +14,6 @@ namespace Money
         public UnityEvent<int> GemsValueChanged;
 
         public event Action<int> MoneyChanged;
-        public event Action<string> ErrorEvent;
 
         [SerializeField]
         private int _replenishmentAmount;
@@ -53,7 +53,7 @@ namespace Money
         
         private void OnError(string message)
         {
-            ErrorEvent?.Invoke(message);
+            NotificationsManager.Instance.ShowNotification(message);
         }
     }
 }

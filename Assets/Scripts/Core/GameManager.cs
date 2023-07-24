@@ -19,6 +19,13 @@ namespace Core
         private AuthenticationView _authenticationView;
         
         [SerializeField]
+        private NotificationsManager _notificationsManager;
+        [SerializeField]
+        private NotificationView _notificationViewPrefab;
+        [SerializeField]
+        private Transform _notificationViewRoot;
+        
+        [SerializeField]
         private CurrencyManager _currencyManager;
         [SerializeField]
         private HeroManager _heroManager;
@@ -29,9 +36,6 @@ namespace Core
         private ShopView _shopView;
         [SerializeField]
         private InventoryView _inventoryView;
-        
-        [SerializeField]
-        private NotificationsManager _notificationsManager;
 
         private UserProfile _userProfile;
 
@@ -39,13 +43,13 @@ namespace Core
         {
             _shopView.Initialize();
             _inventoryView.Initialize();
-            _notificationsManager.Initialize(_shopView, _inventoryView, _currencyManager);
+            _notificationsManager.Initialize(_notificationViewPrefab, _notificationViewRoot);
             
             _startButton.onClick.AddListener(ShowStartScreen);
             _authenticationView.Authorized += OnAuthorized;
             _authenticationView.Unauthorized += OnUnauthorized;
-            _shopView.OnItemBought += OnMoneyChanged;
-            _currencyManager.MoneyChanged += OnMoneyChanged;
+            _shopView.ItemBoughtSuccessfully += MoneyChanged;
+            _currencyManager.MoneyChanged += MoneyChanged;
         }
         
         private void ShowStartScreen()
@@ -72,7 +76,7 @@ namespace Core
             _notificationsManager.ShowNotification(message);
         }
 
-        private void OnMoneyChanged(int money)
+        private void MoneyChanged(int money)
         {
             _userProfile.Money += money;
             _currencyManager.Initialize(_userProfile.Money, _userProfile.Gems);
@@ -83,8 +87,8 @@ namespace Core
             _startButton.onClick.RemoveAllListeners();
             _authenticationView.Authorized -= OnAuthorized;
             _authenticationView.Unauthorized -= OnUnauthorized;
-            _shopView.OnItemBought -= OnMoneyChanged;
-            _currencyManager.MoneyChanged -= OnMoneyChanged;
+            _shopView.ItemBoughtSuccessfully -= MoneyChanged;
+            _currencyManager.MoneyChanged -= MoneyChanged;
         }
     }
 }

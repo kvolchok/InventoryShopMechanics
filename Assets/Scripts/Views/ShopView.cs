@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Api;
 using Api.Responses;
+using Core;
 using InventorySystem.Item;
 using JetBrains.Annotations;
 using TMPro;
@@ -11,8 +12,7 @@ namespace Views
 {
     public class ShopView : ScreenViewWithItemsBase
     {
-        public event Action<int> OnItemBought;
-        public event Action<string> ItemBoughtEvent;
+        public event Action<int> ItemBoughtSuccessfully;
 
         [SerializeField]
         private TextMeshProUGUI _itemPrice;
@@ -76,8 +76,8 @@ namespace Views
         private void OnSuccessBoughtItem(ShopResponse response)
         {
             HideBlackout();
-            OnItemBought?.Invoke(-response.Item.Price);
-            ItemBoughtEvent?.Invoke(response.Content);
+            ItemBoughtSuccessfully?.Invoke(-response.Item.Price);
+            NotificationsManager.Instance.ShowNotification(response.Content);
         }
     }
 }

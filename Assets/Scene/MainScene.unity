@@ -9493,12 +9493,14 @@ MonoBehaviour:
   _startButton: {fileID: 1032189386}
   _startScreenView: {fileID: 1934478394}
   _authenticationView: {fileID: 1934478397}
+  _notificationsManager: {fileID: 1005327381}
+  _notificationViewPrefab: {fileID: 883260814508085878, guid: 66a283af4147d4eb0a3f0f99b306fb84, type: 3}
+  _notificationViewRoot: {fileID: 580902425}
   _currencyManager: {fileID: 1005327379}
   _heroManager: {fileID: 2027930343}
   _lobbyView: {fileID: 1621340836}
   _shopView: {fileID: 395915867}
   _inventoryView: {fileID: 9116622957839417205}
-  _notificationsManager: {fileID: 1005327381}
 --- !u!4 &1005327378
 Transform:
   m_ObjectHideFlags: 0
@@ -9634,8 +9636,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21698b561768419e8aee2bb499412e3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _notificationViewPrefab: {fileID: 883260814508085878, guid: 66a283af4147d4eb0a3f0f99b306fb84, type: 3}
-  _notificationViewRoot: {fileID: 580902425}
 --- !u!1 &1024487222
 GameObject:
   m_ObjectHideFlags: 0
@@ -20456,7 +20456,7 @@ MonoBehaviour:
   _itemDescription: {fileID: 391843595}
   _itemIcon: {fileID: 131097086}
   _actionWithItems: {fileID: 305268934}
-  _itemDeletedEvent:
+  _itemDeleted:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 881658087}

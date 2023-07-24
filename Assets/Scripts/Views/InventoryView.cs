@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Api;
 using Api.Responses;
+using Core;
 using InventorySystem.Item;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -11,10 +11,8 @@ namespace Views
 {
     public class InventoryView : ScreenViewWithItemsBase
     {
-        public event Action<string> OnItemDeletedSuccessful;
-
         [SerializeField]
-        private UnityEvent<ItemType> _itemDeletedEvent;
+        private UnityEvent<ItemType> _itemDeleted;
 
         private Dictionary<ItemModel, int> _itemModels;
 
@@ -68,10 +66,10 @@ namespace Views
             HideBlackout();
             
             DeleteItem(_currentItem);
-            OnItemDeletedSuccessful?.Invoke(response.Content);
+            NotificationsManager.Instance.ShowNotification(response.Content);
             
             InitializeItems();
-            _itemDeletedEvent?.Invoke(_itemsGroupSorter.SelectedMenu);
+            _itemDeleted?.Invoke(_itemsGroupSorter.SelectedMenu);
         }
 
         private void DeleteItem(ItemModel itemModel)

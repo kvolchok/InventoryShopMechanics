@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using Core;
 using InventorySystem;
 using InventorySystem.Item;
 using TMPro;
@@ -11,8 +11,6 @@ namespace Views
 {
     public abstract class ScreenViewWithItemsBase : MonoBehaviour
     {
-        public event Action<string> ErrorEvent;
-        
         protected readonly List<ItemView> _itemViews = new();
 
         [SerializeField]
@@ -77,7 +75,7 @@ namespace Views
         protected virtual void OnError(string message)
         {
             HideBlackout();
-            ErrorEvent?.Invoke(message);
+            NotificationsManager.Instance.ShowNotification(message);
         }
 
         protected void ClearScreen()
