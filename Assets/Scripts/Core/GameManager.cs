@@ -1,6 +1,7 @@
 using System.Linq;
 using Api;
 using Hero;
+using InventorySystem.Item;
 using Money;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,14 +18,7 @@ namespace Core
         private StartScreenView _startScreenView;
         [SerializeField]
         private AuthenticationView _authenticationView;
-        
-        [SerializeField]
-        private NotificationsManager _notificationsManager;
-        [SerializeField]
-        private NotificationView _notificationViewPrefab;
-        [SerializeField]
-        private Transform _notificationViewRoot;
-        
+
         [SerializeField]
         private CurrencyManager _currencyManager;
         [SerializeField]
@@ -43,13 +37,12 @@ namespace Core
         {
             _shopView.Initialize();
             _inventoryView.Initialize();
-            _notificationsManager.Initialize(_notificationViewPrefab, _notificationViewRoot);
-            
+
             _startButton.onClick.AddListener(ShowStartScreen);
             _authenticationView.Authorized += OnAuthorized;
             _authenticationView.Unauthorized += OnUnauthorized;
-            _shopView.ItemBoughtSuccessfully += MoneyChanged;
-            _currencyManager.MoneyChanged += MoneyChanged;
+            _shopView.ItemBoughtSuccessfully += OnItemBought;
+            _currencyManager.MoneyChanged += OnMoneyChanged;
         }
         
         private void ShowStartScreen()
@@ -63,7 +56,8 @@ namespace Core
             _startScreenView.OnAuthorized(_authenticationView);
             
             _userProfile = userProfile;
-            var selectedHeroSettings = _userProfile.HeroesSettings.FirstOrDefault(hero => hero.IsSelected);
+            var selectedHeroSettings = _userProfile.HeroesSettings
+                .FirstOrDefault(hero => hero.IsSelected);
 
             _heroManager.Initialize(selectedHeroSettings);
             _currencyManager.Initialize(_userProfile.Money, _userProfile.Gems);
@@ -73,22 +67,29 @@ namespace Core
         
         private void OnUnauthorized(string message)
         {
-            _notificationsManager.ShowNotification(message);
+            NotificationsManager.Instance.ShowNotification(message);
         }
 
-        private void MoneyChanged(int money)
+        private void OnItemBought(ItemModel itemModel)
         {
-            _userProfile.Money += money;
-            _currencyManager.Initialize(_userProfile.Money, _userProfile.Gems);
+            var delta = -itemModel.Price;
+            OnMoneyChanged(delta);
+            _inventoryView.AddItem(itemModel);
         }
         
+        private void OnMoneyChanged(int delta)
+        {
+            _userProfile.Money += delta;
+            _currencyManager.Initialize(_userProfile.Money, _userProfile.Gems);
+        }
+
         private void OnDestroy()
         {
             _startButton.onClick.RemoveAllListeners();
             _authenticationView.Authorized -= OnAuthorized;
             _authenticationView.Unauthorized -= OnUnauthorized;
-            _shopView.ItemBoughtSuccessfully -= MoneyChanged;
-            _currencyManager.MoneyChanged -= MoneyChanged;
+            _shopView.ItemBoughtSuccessfully -= OnItemBought;
+            _currencyManager.MoneyChanged -= OnMoneyChanged;
         }
     }
 }

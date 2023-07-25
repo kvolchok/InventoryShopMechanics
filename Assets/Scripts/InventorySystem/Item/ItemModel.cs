@@ -1,6 +1,8 @@
+using System;
+
 namespace InventorySystem.Item
 {
-    public class ItemModel
+    public class ItemModel : IEquatable<ItemModel>
     {
         public int Id { get; set; }
         
@@ -15,5 +17,25 @@ namespace InventorySystem.Item
         public int Health { get; set; }
         
         public string SpritePath { get; set; }
+
+        public override int GetHashCode()
+        {
+            return Id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ItemModel);
+        }
+
+        public bool Equals(ItemModel other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return Id == other.Id;
+        }
     }
 }

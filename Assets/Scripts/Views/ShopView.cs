@@ -12,7 +12,7 @@ namespace Views
 {
     public class ShopView : ScreenViewWithItemsBase
     {
-        public event Action<int> ItemBoughtSuccessfully;
+        public event Action<ItemModel> ItemBoughtSuccessfully;
 
         [SerializeField]
         private TextMeshProUGUI _itemPrice;
@@ -34,7 +34,7 @@ namespace Views
         public void TryBuyItem()
         {
             ShowBlackout();
-            WebApi.Instance.ShopApi.SendTryBuyItemRequest(_currentItem.Id, OnSuccessBoughtItem, OnError);
+            WebApi.Instance.ShopApi.SendTryBuyItemRequest(_currentItem.Id, OnItemBoughtSuccessfully, OnError);
         }
 
         protected override void InitializeItems()
@@ -73,10 +73,10 @@ namespace Views
             InitializeItems();
         }
         
-        private void OnSuccessBoughtItem(ShopResponse response)
+        private void OnItemBoughtSuccessfully(ShopResponse response)
         {
             HideBlackout();
-            ItemBoughtSuccessfully?.Invoke(-response.Item.Price);
+            ItemBoughtSuccessfully?.Invoke(response.Item);
             NotificationsManager.Instance.ShowNotification(response.Content);
         }
     }

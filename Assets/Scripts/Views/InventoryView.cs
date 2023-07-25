@@ -14,10 +14,18 @@ namespace Views
         [SerializeField]
         private UnityEvent<ItemType> _itemDeleted;
 
-        private Dictionary<ItemModel, int> _itemModels;
+        private Dictionary<ItemModel, int> _itemModels = new();
 
         public override void ShowScreen()
         {
+            if (_itemViews.Count != 0)
+            {
+                ClearScreen();
+                ShowItemNotSelected();
+                InitializeItems();
+                return;
+            }
+            
             ShowBlackout();
             WebApi.Instance.InventoryApi.SendGetAllUserItemsRequest(OnGetItems, OnError);
         }
@@ -26,7 +34,26 @@ namespace Views
         public void TryDeleteItem()
         {
             ShowBlackout();
-            WebApi.Instance.InventoryApi.SendDeleteItemByIdRequest(_currentItem.Id, OnItemDelete, OnError);
+            WebApi.Instance.InventoryApi.SendDeleteItemByIdRequest(_currentItem.Id, OnItemDeleted, OnError);
+        }
+        
+        public void AddItem(ItemModel itemModel)
+        {
+            if (_itemModels.Count == 0)
+            {
+                return;
+            }
+
+            if (_itemModels.ContainsKey(itemModel))
+            {
+                var value = _itemModels[itemModel];
+                value++;
+                _itemModels[itemModel] = value;
+            }
+            else
+            {
+                _itemModels.Add(itemModel, 1);
+            }
         }
 
         protected override void InitializeItems()
@@ -59,7 +86,7 @@ namespace Views
             InitializeItems();
         }
         
-        private void OnItemDelete(InventoryResponse response)
+        private void OnItemDeleted(InventoryResponse response)
         {
             ClearScreen();
             ShowItemNotSelected();
