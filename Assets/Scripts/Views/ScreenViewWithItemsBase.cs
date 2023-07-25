@@ -41,7 +41,7 @@ namespace Views
 
         public void Initialize()
         {
-            _itemsGroupSorter.OnItemsShowed += ShowItemNotSelected;
+            _itemsGroupSorter.ItemsShowed += ShowItemNotSelected;
         }
 
         public abstract void ShowScreen();
@@ -100,7 +100,7 @@ namespace Views
 
         private void OnDestroy()
         {
-            _itemsGroupSorter.OnItemsShowed -= ShowItemNotSelected;
+            _itemsGroupSorter.ItemsShowed -= ShowItemNotSelected;
         }
     }
 }

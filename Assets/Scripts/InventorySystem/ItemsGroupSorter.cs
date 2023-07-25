@@ -8,7 +8,7 @@ namespace InventorySystem
 {
     public class ItemsGroupSorter : MonoBehaviour
     {
-        public event Action OnItemsShowed;
+        public event Action ItemsShowed;
 
         public ItemType SelectedMenu { get; private set; }
         
@@ -85,7 +85,7 @@ namespace InventorySystem
                 itemView.gameObject.SetActive(needToActivate);
             }
 
-            OnItemsShowed?.Invoke();
+            ItemsShowed?.Invoke();
         }
         
         private bool AreItemsNull()
