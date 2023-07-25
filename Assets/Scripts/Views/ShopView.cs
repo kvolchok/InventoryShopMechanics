@@ -27,14 +27,15 @@ namespace Views
             }
             
             ShowBlackout();
-            WebApi.Instance.ShopApi.SendGetAllGameItemsRequest(OnGetItems, OnError);
+            WebApi.Instance.ShopApi.SendGetAllGameItemsRequest(OnGetAllItems, OnError);
         }
 
         [UsedImplicitly]
         public void TryBuyItem()
         {
             ShowBlackout();
-            WebApi.Instance.ShopApi.SendTryBuyItemRequest(_currentItem.Id, OnItemBoughtSuccessfully, OnError);
+            WebApi.Instance.ShopApi
+                .SendTryBuyItemRequest(_currentItem.Id, OnItemBoughtSuccessfully, OnError);
         }
 
         protected override void InitializeItems()
@@ -64,7 +65,7 @@ namespace Views
             _itemPrice.text = "";
         }
 
-        private void OnGetItems(ShopResponse response)
+        private void OnGetAllItems(ShopResponse response)
         {
             ShowItemNotSelected();
             HideBlackout();

@@ -27,14 +27,15 @@ namespace Views
             }
             
             ShowBlackout();
-            WebApi.Instance.InventoryApi.SendGetAllUserItemsRequest(OnGetItems, OnError);
+            WebApi.Instance.InventoryApi.SendGetAllUserItemsRequest(OnGetUserItems, OnError);
         }
 
         [UsedImplicitly]
         public void TryDeleteItem()
         {
             ShowBlackout();
-            WebApi.Instance.InventoryApi.SendDeleteItemByIdRequest(_currentItem.Id, OnItemDeleted, OnError);
+            WebApi.Instance.InventoryApi
+                .SendDeleteItemByIdRequest(_currentItem.Id, OnItemDeleted, OnError);
         }
         
         public void AddItem(ItemModel itemModel)
@@ -62,7 +63,8 @@ namespace Views
             {
                 var background = _backgroundManager.GetBackgroundByItemType(itemModel.Key.ItemType);
                 var itemView = Instantiate(_itemPrefab, _itemRoot);
-                itemView.Initialize(background.Background, itemModel.Key, ShowItemInfo, itemModel.Value);
+                itemView.Initialize(background.Background, itemModel.Key,
+                    ShowItemInfo, itemModel.Value);
                 _itemViews.Add(itemView);
             }
             
@@ -76,7 +78,7 @@ namespace Views
             base.OnError(message);
         }
 
-        private void OnGetItems(InventoryResponse response)
+        private void OnGetUserItems(InventoryResponse response)
         {
             ClearScreen();
             ShowItemNotSelected();

@@ -47,21 +47,21 @@ namespace Core
         
         private void ShowStartScreen()
         {
-            WebApi.Instance.AuthenticationAPI.SendLoginRequestByDeviceId(OnAuthorized, OnUnauthorized);
+            WebApi.Instance.AuthenticationAPI
+                .SendLoginRequestByDeviceId(OnAuthorized, OnUnauthorized);
             _startScreenView.OnGameStarted();
         }
 
         private void OnAuthorized(UserProfile userProfile)
         {
+            _userProfile = userProfile;
             _startScreenView.OnAuthorized(_authenticationView);
             
-            _userProfile = userProfile;
             var selectedHeroSettings = _userProfile.HeroesSettings
                 .FirstOrDefault(hero => hero.IsSelected);
 
             _heroManager.Initialize(selectedHeroSettings);
             _currencyManager.Initialize(_userProfile.Money, _userProfile.Gems);
-            
             _lobbyView.Initialize(selectedHeroSettings, _shopView, _inventoryView);
         }
         
