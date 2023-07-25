@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Hero;
-using InventorySystem.Item;
 
 namespace User
 {
@@ -16,7 +15,5 @@ namespace User
         public int Gems { get; set; }
 
         public List<HeroesSettings> HeroesSettings { get; } = new();
-        
-        public Dictionary<ItemModel, int> Items { get; set; } = new();
     }
 }
