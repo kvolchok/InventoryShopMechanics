@@ -5893,8 +5893,8 @@ RectTransform:
   - {fileID: 1934478396}
   - {fileID: 293712402}
   - {fileID: 1621340835}
-  - {fileID: 9116622957839417099}
   - {fileID: 395915862}
+  - {fileID: 9116622957839417099}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9525,7 +9525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc55b4af792f4d65bd6b1f08fd92046f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoneyValueChanged:
+  _moneyValueChanged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4273157848575510282}
@@ -9564,7 +9564,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  GemsValueChanged:
+  _gemsValueChanged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4273157848575510282}

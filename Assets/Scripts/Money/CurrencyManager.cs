@@ -9,8 +9,10 @@ namespace Money
 {
     public class CurrencyManager : MonoBehaviour
     {
-        public UnityEvent<int> MoneyValueChanged;
-        public UnityEvent<int> GemsValueChanged;
+        [SerializeField]
+        private UnityEvent<int> _moneyValueChanged;
+        [SerializeField]
+        private UnityEvent<int> _gemsValueChanged;
 
         [SerializeField]
         private int _replenishmentAmount;
@@ -39,13 +41,13 @@ namespace Money
         private void SetMoney(int value)
         {
             _money = value;
-            MoneyValueChanged?.Invoke(_money);
+            _moneyValueChanged?.Invoke(_money);
         }
 
         private void SetGems(int value)
         {
             _gems = value;
-            GemsValueChanged?.Invoke(_gems);
+            _gemsValueChanged?.Invoke(_gems);
         }
 
         private void OnSuccess(UserMoneyResponse response)
