@@ -1,4 +1,3 @@
-using System;
 using Api;
 using Api.Responses;
 using Core;
@@ -12,8 +11,6 @@ namespace Money
     {
         public UnityEvent<int> MoneyValueChanged;
         public UnityEvent<int> GemsValueChanged;
-
-        public event Action<int> MoneyChanged;
 
         [SerializeField]
         private int _replenishmentAmount;
@@ -33,22 +30,28 @@ namespace Money
             WebApi.Instance.UserMoneyApi.SendAddMoneyRequest(_replenishmentAmount, OnSuccess, OnError);
         }
 
+        public void ItemBought(int price)
+        {
+            var newMoney = _money - price;
+            SetMoney(newMoney);
+        }
+
         private void SetMoney(int value)
         {
             _money = value;
-            MoneyValueChanged.Invoke(_money);
+            MoneyValueChanged?.Invoke(_money);
         }
 
         private void SetGems(int value)
         {
             _gems = value;
-            GemsValueChanged.Invoke(_gems);
+            GemsValueChanged?.Invoke(_gems);
         }
 
         private void OnSuccess(UserMoneyResponse response)
         {
-            var delta = response.Money - _money;
-            MoneyChanged?.Invoke(delta);
+            var newMoney = _money + response.Money;
+            SetMoney(newMoney);
         }
         
         private void OnError(string message)

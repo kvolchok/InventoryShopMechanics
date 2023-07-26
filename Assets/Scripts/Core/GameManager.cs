@@ -31,8 +31,6 @@ namespace Core
         [SerializeField]
         private InventoryView _inventoryView;
 
-        private UserProfile _userProfile;
-
         private void Awake()
         {
             _shopView.Initialize();
@@ -42,7 +40,6 @@ namespace Core
             _authenticationView.Authorized += OnAuthorized;
             _authenticationView.Unauthorized += OnUnauthorized;
             _shopView.ItemBoughtSuccessfully += OnItemBought;
-            _currencyManager.MoneyChanged += OnMoneyChanged;
         }
         
         private void ShowStartScreen()
@@ -54,14 +51,13 @@ namespace Core
 
         private void OnAuthorized(UserProfile userProfile)
         {
-            _userProfile = userProfile;
             _startScreenView.OnAuthorized(_authenticationView);
             
-            var selectedHeroSettings = _userProfile.HeroesSettings
+            var selectedHeroSettings = userProfile.HeroesSettings
                 .FirstOrDefault(hero => hero.IsSelected);
 
             _heroManager.Initialize(selectedHeroSettings);
-            _currencyManager.Initialize(_userProfile.Money, _userProfile.Gems);
+            _currencyManager.Initialize(userProfile.Money, userProfile.Gems);
             _lobbyView.Initialize(selectedHeroSettings, _shopView, _inventoryView);
         }
         
@@ -72,15 +68,8 @@ namespace Core
 
         private void OnItemBought(ItemModel itemModel)
         {
-            var delta = -itemModel.Price;
-            OnMoneyChanged(delta);
+            _currencyManager.ItemBought(itemModel.Price);
             _inventoryView.AddItem(itemModel);
-        }
-        
-        private void OnMoneyChanged(int delta)
-        {
-            _userProfile.Money += delta;
-            _currencyManager.Initialize(_userProfile.Money, _userProfile.Gems);
         }
 
         private void OnDestroy()
@@ -89,7 +78,6 @@ namespace Core
             _authenticationView.Authorized -= OnAuthorized;
             _authenticationView.Unauthorized -= OnUnauthorized;
             _shopView.ItemBoughtSuccessfully -= OnItemBought;
-            _currencyManager.MoneyChanged -= OnMoneyChanged;
         }
     }
 }
