@@ -10,8 +10,8 @@ namespace InventorySystem
     {
         public event Action ItemsShowed;
 
-        public ItemType SelectedMenu { get; private set; }
-        
+        public ItemType SelectedMenu { get; private set; } = ItemType.All;
+
         [SerializeField]
         private GameObject[] _underlines;
         
