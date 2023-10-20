@@ -52,8 +52,7 @@ namespace Money
 
         private void OnSuccess(UserMoneyResponse response)
         {
-            var newMoney = _money + response.Money;
-            SetMoney(newMoney);
+            SetMoney(response.Money);
         }
         
         private void OnError(string message)
